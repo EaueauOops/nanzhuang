@@ -36,7 +36,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -96,6 +100,21 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  {
+    path: '/merchant',
+    component: Layout,
+    children: [{
+      path: 'index',
+      component: () => import('@/views/register/merchant'),
+      name: 'merchant',
+      meta: {
+        roles: ['merchant'],
+        title: 'merchant',
+        icon: 'user',
+        noCache: true
+      }
+    }]
+  },
   {
     path: '/nested',
     component: Layout,

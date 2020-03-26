@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/login', '/register'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -34,9 +34,13 @@ router.beforeEach(async(to, from, next) => {
         try {
           // get user info
           // note: roles must be a object array! such as: ['admin'] or ,['developer','editor']
-          const role = await store.dispatch('user/getInfo')
+          const data = await store.dispatch('user/getInfo')
+
           const roles = []
-          roles.push(role)
+          roles.push(data.role)
+
+          if (data.role === 'merchant') { await store.dispatch('user/merchantInfo')
+            console.log(store.getters.ownerName)}
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
 
