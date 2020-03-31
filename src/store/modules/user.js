@@ -1,4 +1,5 @@
-import { login, getInfo, register, merchant, merchantInfo } from '@/api/user'
+import { login, getInfo, register } from '@/api/user'
+import { merchant, merchantInfo } from '@/api/merchant'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 

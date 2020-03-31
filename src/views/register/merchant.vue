@@ -54,6 +54,10 @@
 
       <el-button :loading="loading" type="primary" style="width:25%;margin-bottom:30px;margin-left:15px;margin-top: 10px;" @click.native.prevent="handleMerchant">提交</el-button>
 
+      <div class="tips">
+        <span style="margin-right:20px;">请注意：企业代码与唯一编码不可与他人一致。每个用户只能提交一次商户信息。</span>
+      </div>
+
     </el-form>
   </div>
 </template>
@@ -100,7 +104,12 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/merchant', this.merchantForm).then(() => {
-            this.$message('信息提交成功')
+            this.$message({
+              showClose: true,
+              message: '信息提交成功',
+              type: 'success',
+              duration: 1500
+            })
             this.loading = false
             this.$store.dispatch('user/merchantInfo')
           }).catch(() => {
@@ -177,7 +186,7 @@ export default {
 
     .merchant-form {
       position: relative;
-      width: 520px;
+      width: 570px;
       max-width: 100%;
       padding: 40px 20px 0;
       margin-left: 0px;
@@ -202,6 +211,17 @@ export default {
         margin: 0px 0px 40px 15px;
         text-align: left;
         font-weight: bold;
+      }
+    }
+
+    .tips {
+      font-size: 14px;
+      color: $dark_gray;
+      margin-bottom: 10px;
+      span {
+        &:first-of-type {
+          margin-right: 16px;
+        }
       }
     }
   }

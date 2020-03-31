@@ -145,7 +145,12 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/register', this.registerForm).then(() => {
-            this.$message('注册成功，请登录')
+            this.$message({
+              showClose: true,
+              message: '注册成功，请登录',
+              type: 'success',
+              duration: 1500
+            })
             setTimeout(() => {}, 1000)
             this.$router.push('/login')
             this.loading = false
