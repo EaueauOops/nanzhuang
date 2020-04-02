@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-card class="selectItem">
-      message
+      商户经营者:<el-input style="width: 5%" v-model="input.mo"></el-input>
     </el-card>
 
     <el-table
@@ -16,7 +16,6 @@
         width="55">
       </el-table-column>
       <el-table-column
-        prop="name"
         label="状态"
         width="120">
       </el-table-column>
@@ -168,7 +167,10 @@ export default {
   name: 'SaleRecord',
   data() {
     return {
-      multipleSelection: []
+      multipleSelection: [],
+      input: {
+        mo: ''
+      }
     }
   },
   methods: {
@@ -195,5 +197,6 @@ export default {
   .selectItem {
     width: 100%;
     margin: 0 auto;
+    font-size: 14px;
   }
 </style>

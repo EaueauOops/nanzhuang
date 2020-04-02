@@ -41,11 +41,6 @@ export const constantRoutes = [
     component: () => import('@/views/register/index'),
     hidden: true
   },
-  // {
-  //   path: '/404',
-  //   component: () => import('@/views/404'),
-  //   hidden: true
-  // },
 
   {
     path: '/',
@@ -59,39 +54,53 @@ export const constantRoutes = [
     }]
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
 
   {
-    path: '/form',
+    path: '/product',
     component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+    children: [{
+      path: 'index',
+      component: () => import('@/views/product/productTable'),
+      name: 'ProductTable',
+      meta: {
+        title: 'ProductTable',
+        icon: 'table'
       }
-    ]
+    }]
   }
 ]
 
@@ -106,87 +115,52 @@ export const asyncRoutes = [
     children: [{
       path: 'index',
       component: () => import('@/views/register/merchant'),
-      name: 'merchant',
+      name: 'Merchant',
       meta: {
         roles: ['merchant'],
-        title: 'merchant',
+        title: 'Merchant',
         icon: 'user',
         noCache: true
       }
     }]
   },
-  {
-    path: '/sale-record',
-    component: Layout,
-    children: [{
-      path: 'index',
-      component: () => import('@/views/saleRecord/index'),
-      name: 'saleRecord',
-      meta: {
-        title: 'saleRecord',
-        icon: 'form',
-        noCache: true
-      }
-    }]
-  },
+  // 稍后再做
   // {
-  //   path: '/nested',
+  //   path: '/sale-record',
   //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
+  //   children: [{
+  //     path: 'index',
+  //     component: () => import('@/views/saleRecord/index'),
+  //     name: 'saleRecord',
+  //     meta: {
+  //       title: 'saleRecord',
+  //       icon: 'form',
+  //       noCache: true
+  //     }
+  //   }]
+  // },
+
+  // {
+  //   path: '/product',
+  //   component: Layout,
+  //   redirect: '/product/table',
+  //   name: 'Product',
+  //   meta: { title: 'Product', icon: 'example' },
   //   children: [
   //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
+  //       path: 'table',
+  //       name: 'productTable',
+  //       component: () => import('@/views/product/productTable'),
+  //       meta: { title: 'productTable', icon: 'table' }
   //     },
   //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       meta: { title: 'menu2' }
+  //       path: 'add',
+  //       name: 'productAdd',
+  //       component: () => import('@/views/product/productAdd'),
+  //       meta: { title: 'productAdd', icon: 'tree', roles: ['admin'] }
   //     }
   //   ]
   // },
-
   {
     path: 'external-link',
     component: Layout,
