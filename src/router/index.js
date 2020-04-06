@@ -88,7 +88,20 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
-
+  {
+    path: '/sale-record',
+    component: Layout,
+    children: [{
+      path: 'index',
+      component: () => import('@/views/saleRecord/index'),
+      name: 'SaleRecord',
+      meta: {
+        title: 'SaleRecord',
+        icon: 'form',
+        noCache: true
+      }
+    }]
+  },
   {
     path: '/product',
     component: Layout,
@@ -124,43 +137,6 @@ export const asyncRoutes = [
       }
     }]
   },
-  // 稍后再做
-  // {
-  //   path: '/sale-record',
-  //   component: Layout,
-  //   children: [{
-  //     path: 'index',
-  //     component: () => import('@/views/saleRecord/index'),
-  //     name: 'saleRecord',
-  //     meta: {
-  //       title: 'saleRecord',
-  //       icon: 'form',
-  //       noCache: true
-  //     }
-  //   }]
-  // },
-
-  // {
-  //   path: '/product',
-  //   component: Layout,
-  //   redirect: '/product/table',
-  //   name: 'Product',
-  //   meta: { title: 'Product', icon: 'example' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'productTable',
-  //       component: () => import('@/views/product/productTable'),
-  //       meta: { title: 'productTable', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'add',
-  //       name: 'productAdd',
-  //       component: () => import('@/views/product/productAdd'),
-  //       meta: { title: 'productAdd', icon: 'tree', roles: ['admin'] }
-  //     }
-  //   ]
-  // },
   {
     path: 'external-link',
     component: Layout,

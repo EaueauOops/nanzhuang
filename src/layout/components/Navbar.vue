@@ -12,8 +12,11 @@
           <!--<i class="el-icon-caret-bottom" />-->
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
+          <el-dropdown-item disabled style="color: #606266">
+            <span >Signed in as <b>{{name}}</b></span>
+          </el-dropdown-item>
           <router-link to="/">
-            <el-dropdown-item>
+            <el-dropdown-item divided>
               Home
             </el-dropdown-item>
           </router-link>
@@ -45,7 +48,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   methods: {
@@ -85,6 +89,7 @@ export default {
   .breadcrumb-container {
     float: left;
   }
+
 
   .right-menu {
     float: right;

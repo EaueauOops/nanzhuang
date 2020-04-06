@@ -19,3 +19,11 @@ export function merchantInfo(token) {
     params: { token }
   })
 }
+
+export function merchantList(token) {
+  return request({
+    url: 'merchant/list',
+    method: 'get',
+    params: { token }
+  })
+}

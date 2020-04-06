@@ -41,8 +41,8 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登陆</el-button>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="toRegister">注册</el-button>
+      <el-button :loading="loading1" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登陆</el-button>
+      <el-button :loading="loading2" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="toRegister">注册</el-button>
 
     </el-form>
   </div>
@@ -77,7 +77,8 @@ export default {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
-      loading: false,
+      loading1: false,
+      loading2: false,
       passwordType: 'password',
       redirect: undefined
     }
@@ -104,12 +105,12 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
+          this.loading1 = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
+            this.loading1 = false
           }).catch(() => {
-            this.loading = false
+            this.loading1 = false
           })
         } else {
           console.log('error submit!!')
@@ -119,6 +120,7 @@ export default {
     },
     toRegister() {
       this.$router.push('/register')
+      this.loading2 = true
     }
   }
 }

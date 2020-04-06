@@ -70,7 +70,7 @@
           <span>{{ row.productName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" style="width: 15%;" align="center">
+      <el-table-column label="操作" style="width: 15%;" align="center" v-if="role === 'admin'">
         <template slot-scope="{row}">
           <el-button size="mini" type="danger" @click="handleDelete(row)">
             删除
