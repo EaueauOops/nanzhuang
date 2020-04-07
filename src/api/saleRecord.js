@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+const qs = require('qs')
 
 export function addSaleRecord(data) {
   return request({
@@ -71,6 +71,9 @@ export function deleteSaleRecord(data) {
     method: 'delete',
     params: {
       'saleRecordIds[]': data + ''
+    },
+    paramsSerializer: function(params) {
+      return qs.stringify(params, { arrayFormat: 'repeat' })
     }
   })
 }

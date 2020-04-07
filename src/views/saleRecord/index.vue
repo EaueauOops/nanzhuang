@@ -47,7 +47,7 @@
       至<el-input v-model="query.endTime" class="selectItem" style="width: 15%" placeholder="请输入结束期数" />
       <br>
       <el-button type="primary" icon="el-icon-search" style="float: right;margin-bottom: 10px" @click="handleFilter">搜索</el-button>
-      <el-button v-if="role === 'admin'||'merchant'" type="primary" icon="el-icon-edit" style="float: right;margin-right: 10px" @click="dialogVisible = true">上传</el-button>
+      <el-button v-if="role !== 'user'" type="primary" icon="el-icon-edit" style="float: right;margin-right: 10px" @click="dialogVisible = true">上传</el-button>
     </el-card>
 
     <el-dialog
@@ -102,7 +102,8 @@
           <el-radio v-model="temp.brand" label="Common">Common</el-radio>
         </el-form-item>
         <el-form-item label="区域" prop="region">
-          <el-input v-model="temp.region" placeholder="请输入区域" style="width: 80%" />
+          <el-radio v-model="temp.region" label="本地" style="margin-left: 30px; margin-right: 40px">本地</el-radio>
+          <el-radio v-model="temp.region" label="外来">外来</el-radio>
         </el-form-item>
         <el-form-item label="产品大类" required>
           <el-row style="width: 350px;">
