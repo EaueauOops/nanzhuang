@@ -1,10 +1,9 @@
 <template>
-  <div class="navbar" :style="{backgroundImage:'url('+require('../../assets/img/nav3.jpg')+')'}">
+  <div class="navbar" :style="{backgroundImage:'url('+require('../../assets/img/nav2.jpg')+')'}">
     <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <breadcrumb class="breadcrumb-container" />
-
-    <div class="right-menu">
+    <div  class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!--<img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">-->
@@ -69,8 +68,6 @@ export default {
   height: 50px;
   overflow: hidden;
   position: relative;
-  /*background: #fff;*/
-  /*<!--backgroundImage:'url('+require('../../assets/img/head.jpg')+')'-->*/
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
   .hamburger-container {

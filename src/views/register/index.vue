@@ -243,7 +243,8 @@ export default {
   .register-container {
     min-height: 100%;
     width: 100%;
-    background-color: $bg;
+    /*<!--background-color: $bg;-->*/
+    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586273149387&di=c4821936adeeee36968afd85357c22c4&imgtype=0&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2196270512%2C4122656465%26fm%3D214%26gp%3D0.jpg");
     overflow: hidden;
 
     .register-form {

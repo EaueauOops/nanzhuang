@@ -50,6 +50,12 @@
       style="width: 70%;margin-left: 20px;"
       :header-cell-style="{background:'rgb(215, 227, 247)',color:'#606266'}"
     >
+      <el-table-column
+        label="序号"
+        type="index"
+        width="55"
+        align="center">
+      </el-table-column>
       <el-table-column label="产品代码" style="width: 80%;" align="center">
         <template slot-scope="{row}">
           <span>{{ row.productCode }}</span>

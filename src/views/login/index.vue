@@ -40,6 +40,14 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
+      <div class="form-group" style="display: flex;margin-bottom: 13px">
+        <span style="width: 100px;color: #fff;padding: 10px">验证码：</span>
+        <el-input type="text" id="code" v-model="code" class="code"  placeholder="请输入您的验证码" />
+        <div class="login-code" @click="refreshCode">
+          <!--验证码组件-->
+          <s-identify :identifyCode="identifyCode"></s-identify>
+        </div>
+      </div>
 
       <el-button :loading="loading1" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登陆</el-button>
       <el-button :loading="loading2" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="toRegister">注册</el-button>
@@ -50,9 +58,11 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import SIdentify from '@/components/Sidentify'
 
 export default {
   name: 'Login',
+  components: { SIdentify },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -69,6 +79,9 @@ export default {
       }
     }
     return {
+      identifyCodes: '1234567890',
+      identifyCode: '',
+      code: '', // text框输入的验证码
       loginForm: {
         username: 'admin',
         password: '123456'
@@ -83,6 +96,13 @@ export default {
       redirect: undefined
     }
   },
+  mounted() {
+    this.identifyCode = ''
+    this.makeCode(this.identifyCodes, 4)
+  },
+  created() {
+    this.refreshCode()
+  },
   watch: {
     $route: {
       handler: function(route) {
@@ -92,6 +112,22 @@ export default {
     }
   },
   methods: {
+    // 验证码
+    randomNum(min, max) {
+      return Math.floor(Math.random() * (max - min) + min)
+    },
+
+    refreshCode() {
+      this.identifyCode = ''
+      this.makeCode(this.identifyCodes, 4)
+    },
+    makeCode(o, l) {
+      for (let i = 0; i < l; i++) {
+        this.identifyCode += this.identifyCodes[
+          this.randomNum(0, this.identifyCodes.length)]
+      }
+      console.log(this.identifyCode)
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -103,6 +139,16 @@ export default {
       })
     },
     handleLogin() {
+      if (this.code === '') {
+        this.$message.error({ message: '请输入验证码', duration: 1500 })
+        return
+      }
+      if (this.identifyCode !== this.code) {
+        this.code = ''
+        this.refreshCode()
+        this.$message.error({ message: '请输入正确的验证码', duration: 1500 })
+        return
+      }
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading1 = true
@@ -170,6 +216,21 @@ $cursor: #fff;
     border-radius: 5px;
     color: #454545;
   }
+
+  .code{
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    color: #454545;
+    width: 300px;
+    height: 43px;
+  }
+  .login-code{
+    cursor: pointer;
+    margin-top: 5px;
+    margin-left: 5px;
+  }
 }
 </style>
 
@@ -185,14 +246,15 @@ $light_gray:#eee;
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  /*<!--background-color: $bg;-->*/
+  background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1586273149387&di=c4821936adeeee36968afd85357c22c4&imgtype=0&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D2196270512%2C4122656465%26fm%3D214%26gp%3D0.jpg");
   overflow: hidden;
 
   .login-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 100px 35px 0;
     margin: 0 auto;
     overflow: hidden;
   }
