@@ -34,7 +34,6 @@
           name="password"
           tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
@@ -42,7 +41,7 @@
       </el-form-item>
       <div class="form-group" style="display: flex;margin-bottom: 13px">
         <span style="width: 100px;color: #fff;padding: 10px">验证码：</span>
-        <el-input type="text" id="code" v-model="code" class="code"  placeholder="请输入您的验证码" />
+        <el-input type="text" id="code" v-model="code" class="code"  placeholder="请输入您的验证码"  @keyup.enter.native="handleLogin"/>
         <div class="login-code" @click="refreshCode">
           <!--验证码组件-->
           <s-identify :identifyCode="identifyCode"></s-identify>

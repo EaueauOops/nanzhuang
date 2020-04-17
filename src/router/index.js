@@ -103,6 +103,20 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/price',
+    component: Layout,
+    children: [{
+      path: 'index',
+      component: () => import('@/views/price/index'),
+      name: 'Price',
+      meta: {
+        title: 'Price',
+        icon: 'form',
+        noCache: true
+      }
+    }]
+  },
+  {
     path: '/product',
     component: Layout,
     children: [{
