@@ -10,3 +10,22 @@ export function getAllPrice(data) {
     }
   })
 }
+
+export function filterPrice(data) {
+  return request({
+    url: 'price-index/query',
+    method: 'get',
+    params: {
+      code: data.code,
+      brand: data.brand,
+      region: data.region,
+      periodYear: data.periodYear,
+      periodMonth: data.periodMonth,
+      periodDays: data.periodDays,
+      daleiName: data.daleiName,
+      zhongleiName: data.zhongleiName,
+      pageNum: data.pageNum,
+      pageSize: data.pageSize
+    }
+  })
+}

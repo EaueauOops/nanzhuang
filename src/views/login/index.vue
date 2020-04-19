@@ -125,7 +125,7 @@ export default {
         this.identifyCode += this.identifyCodes[
           this.randomNum(0, this.identifyCodes.length)]
       }
-      console.log(this.identifyCode)
+      // console.log(this.identifyCode)
     },
     showPwd() {
       if (this.passwordType === 'password') {

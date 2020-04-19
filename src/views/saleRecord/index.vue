@@ -98,8 +98,8 @@
           </el-row>
         </el-form-item>
         <el-form-item label="品牌知名度" prop="brand">
-          <el-radio v-model="temp.brand" label="Famous" style="margin-left: 30px; margin-right: 40px">Famous</el-radio>
-          <el-radio v-model="temp.brand" label="Common">Common</el-radio>
+          <el-radio v-model="temp.brand" label="知名" style="margin-left: 30px; margin-right: 40px">知名</el-radio>
+          <el-radio v-model="temp.brand" label="普通">普通</el-radio>
         </el-form-item>
         <el-form-item label="区域" prop="region">
           <el-radio v-model="temp.region" label="本地" style="margin-left: 30px; margin-right: 40px">本地</el-radio>
