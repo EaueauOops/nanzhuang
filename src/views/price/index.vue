@@ -8,7 +8,7 @@
         <div class="title">
           <b>| </b>价格指数图表
         </div>
-        <div id="main" v-if="tabIndex==='0'||tabIndex==='1'||tabIndex==='2'||tabIndex==='3'" style="width: 700px;height:300px;margin: 0 auto;"></div>
+        <div id="main" style="width: 700px;height:300px;margin: 0 auto;"></div>
         <div class="title">
           <b>| </b>价格指数数据表
         </div>
