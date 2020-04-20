@@ -9,6 +9,14 @@ import user from './modules/user'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+  state: {
+    isAlive: true
+  },
+  mutations: {
+    toggleIsAlive(state, isAlive) {
+      state.isAlive = isAlive
+    }
+  },
   modules: {
     app,
     permission,

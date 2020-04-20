@@ -97,22 +97,23 @@ export const constantRoutes = [
       name: 'SaleRecord',
       meta: {
         title: 'SaleRecord',
-        icon: 'form',
-        noCache: true
+        icon: 'form'
+        // noCache: true
       }
     }]
   },
   {
     path: '/price',
     component: Layout,
+    redirect: '/price/index',
     children: [{
       path: 'index',
       component: () => import('@/views/price/index'),
       name: 'Price',
       meta: {
         title: 'Price',
-        icon: 'form',
-        noCache: true
+        icon: 'form'
+        // noCache: true
       }
     }]
   },
