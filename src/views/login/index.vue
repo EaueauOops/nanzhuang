@@ -164,8 +164,9 @@ export default {
       })
     },
     toRegister() {
-      this.$router.push('/register')
       this.loading2 = true
+      this.$router.push('/register')
+      this.loading2 = false
     }
   }
 }

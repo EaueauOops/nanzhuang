@@ -8,7 +8,11 @@
         <div class="title">
           <b>| </b>价格指数图表
         </div>
-        <div id="main" ref="main" style="width: 100%;height:300px;margin: 0 auto" />
+        <div style="margin-top: 10px">
+          <el-button type="primary" icon="el-icon-search" style="float: right" @click="filterChartPeriod">搜索</el-button>
+          <el-input v-model="chartPeriodEnd"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输入结束期数" />
+          <el-input v-model="chartPeriodStart"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输开始期数" /></div>
+        <div id="main" ref="main" style="width: 100%;height:300px;margin: 60px auto 0px auto" />
         <div class="title">
           <b>| </b>价格指数数据表
         </div>
@@ -92,6 +96,8 @@ export default {
   data() {
     return {
       index: '0',
+      chartPeriodStart: '',
+      chartPeriodEnd: '',
       listLoading: true,
       list: [],
       chart: [],
@@ -169,6 +175,7 @@ export default {
         pageSize: 20
       },
       periodList: [],
+
       fixedBaseList: [],
       yearOnYearList: [],
       chainList: [],
@@ -180,7 +187,7 @@ export default {
       ],
       tabIndex: 0,
       bigList: [],
-      selectList: []
+      selectList: [],
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -232,6 +239,7 @@ export default {
     //   this.queryChart.region = queryChartRegion
     // },
     handleClick(tab, event) {
+      this.chartPeriodStart = this.chartPeriodEnd = ''
       this.index = tab.index
       if (tab.index === '0') {
         this.resetData({ queryBrand: '', queryChartBrand: 'all', queryRegion: '', queryChartRegion: 'all' })
@@ -299,6 +307,19 @@ export default {
       this.yearOnYearList = []
       this.chainList = []
       this.fixedBaseList = []
+    },
+    filterChartPeriod() {
+      this.periodList = this.filterPeriod(this.periodList)
+      this.drawChart()
+    },
+    filterPeriod(arr) {
+      let a = 0
+      let b = arr.length - 1
+      for (const i in arr) {
+        if (arr[i] === this.chartPeriodStart) { a = i }
+        if (arr[i] === this.chartPeriodEnd) { b = i }
+      }
+      return arr.slice(a, b + 1)
     },
     drawChart() {
       this.$refs.main[0].id = 'main'
