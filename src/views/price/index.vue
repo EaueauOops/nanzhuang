@@ -11,7 +11,7 @@
         <div style="margin-top: 10px">
           <el-button type="primary" icon="el-icon-search" style="float: right" @click="filterChartPeriod">搜索</el-button>
           <el-input v-model="chartPeriodEnd"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输入结束期数" />
-          <el-input v-model="chartPeriodStart"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输开始期数" /></div>
+          <el-input v-model="chartPeriodStart"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输入开始期数" /></div>
         <div id="main" ref="main" style="width: 100%;height:300px;margin: 60px auto 0px auto" />
         <div class="title">
           <b>| </b>价格指数数据表
@@ -174,8 +174,9 @@ export default {
         pageNum: 1,
         pageSize: 20
       },
+      totalChart: 0,
+      totalChartData: [],
       periodList: [],
-
       fixedBaseList: [],
       yearOnYearList: [],
       chainList: [],
@@ -285,13 +286,14 @@ export default {
       this.listLoading = true
       filterPrice(this.query).then(response => {
         this.list = response.data.list
-        this.total = response.data.list.length
+        this.total = response.data.length
         this.listLoading = false
       })
     },
     getChart() {
       filterPrice(this.queryChart).then(response => {
         this.chart = response.data.list
+        this.totalChart = response.data.length
         this.initChartData()
         for (const i of this.chart) {
           this.periodList.push(i.period)
@@ -300,6 +302,7 @@ export default {
           this.fixedBaseList.push(i.fixedBaseIndex)
         }
         this.drawChart()
+        this.getTotalChartData()
       })
     },
     initChartData() {
@@ -308,18 +311,38 @@ export default {
       this.chainList = []
       this.fixedBaseList = []
     },
+    getTotalChartData() {
+      this.queryChart.pageSize = this.totalChart
+      filterPrice(this.queryChart).then(response => {
+        this.queryChart.pageSize = 20
+        this.totalChartData = response.data.list
+      })
+    },
     filterChartPeriod() {
-      this.periodList = this.filterPeriod(this.periodList)
+      this.initChartData()
+      // console.log(this.totalChartData)
+      for (const i of this.totalChartData) {
+        this.periodList.push(i.period)
+        this.yearOnYearList.push(i.yearOnYearIndex)
+        this.chainList.push(i.chainIndex)
+        this.fixedBaseList.push(i.fixedBaseIndex)
+      }
+      this.filterPeriod()
       this.drawChart()
     },
-    filterPeriod(arr) {
+    filterPeriod() {
       let a = 0
-      let b = arr.length - 1
-      for (const i in arr) {
-        if (arr[i] === this.chartPeriodStart) { a = i }
-        if (arr[i] === this.chartPeriodEnd) { b = i }
+      let b = this.periodList.length
+      for (const i in this.periodList) {
+        if (this.periodList[i-1] + '' === this.chartPeriodStart) { b = i
+          console.log('b'+b)}
+        if (this.periodList[i] + '' === this.chartPeriodEnd) { a = i
+          console.log('a'+a)}
       }
-      return arr.slice(a, b + 1)
+      this.periodList = this.periodList.slice(a, b)
+      this.yearOnYearList = this.yearOnYearList.slice(a,b)
+      this.chainList = this.chainList.slice(a,b)
+      this.fixedBaseList = this.fixedBaseList.slice(a,b)
     },
     drawChart() {
       this.$refs.main[0].id = 'main'
@@ -341,6 +364,10 @@ export default {
       var fixedBaseList = this.fixedBaseList
       var yearOnYearList = this.yearOnYearList
       var chainList = this.chainList
+      periodList = periodList.reverse()
+      fixedBaseList = fixedBaseList.reverse()
+      yearOnYearList = yearOnYearList.reverse()
+      chainList = chainList.reverse()
       var option = {
         title: {
           text: '男装内销价格指数',

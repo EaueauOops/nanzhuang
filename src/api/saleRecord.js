@@ -51,6 +51,7 @@ export function filterSaleRecord(data) {
     url: 'sale-record/query-records',
     method: 'get',
     params: {
+      // merchantName: encodeURI(encodeURI(data.merchantName)),
       merchantName: data.merchantName,
       businessCode: data.businessCode,
       recodeUsername: data.recodeUsername,

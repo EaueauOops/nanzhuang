@@ -766,7 +766,8 @@ export default {
     handleFilter() {
       this.listLoading = true
       filterSaleRecord(this.query).then(response => {
-        this.total = response.data.list.length
+        this.total = response.data.length
+        console.log(this.total)
         this.list = response.data.list
         this.totalAll = 0
         this.listLoading = false
