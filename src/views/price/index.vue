@@ -447,6 +447,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  .el-table--border th, .el-table__fixed-right-patch {
+    background: rgb(215, 227, 247);
+  }
+</style>
+
 <style lang="scss" scoped>
   .select {
     margin-bottom: 10px;

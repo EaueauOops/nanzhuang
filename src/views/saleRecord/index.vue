@@ -687,7 +687,7 @@ export default {
     // 没做
     handleSelectionChange(val) {
       this.multipleSelection = val
-      console.log(this.multipleSelection)
+      // console.log(this.multipleSelection)
     },
     handlePlentyDelete() {
       let data = []
@@ -767,7 +767,7 @@ export default {
       this.listLoading = true
       filterSaleRecord(this.query).then(response => {
         this.total = response.data.length
-        console.log(this.total)
+        // console.log(this.total)
         this.list = response.data.list
         this.totalAll = 0
         this.listLoading = false
