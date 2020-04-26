@@ -95,8 +95,8 @@
     <el-dialog
       title="请输入调整指数"
       :visible.sync="dialogVisible"
-      width="30%">
-      <el-form :label-position="labelPosition" label-width="100px" :model="adjustList">
+      width="25%">
+      <el-form label-width="100px" :model="adjustList">
         <el-form-item label="定基调整指数">
           <el-input v-model="adjustList.fixedBaseAdjustIndex"></el-input>
         </el-form-item>
@@ -454,7 +454,11 @@ export default {
         xAxis: {
           data: periodList
         },
-        yAxis: {},
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
         toolbox: { // 工具箱
           show: true,
           feature: {
@@ -471,7 +475,7 @@ export default {
           {
             name: '定基',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: '28%',
             data: fixedBaseList,
             markLine: {
               data: [
@@ -485,7 +489,7 @@ export default {
           {
             name: '同比',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: '28%',
             data: yearOnYearList,
             markLine: {
               data: [
@@ -499,7 +503,7 @@ export default {
           {
             name: '环比',
             type: 'bar',
-            barWidth: '60%',
+            barWidth: '28%',
             data: chainList,
             markLine: {
               data: [
