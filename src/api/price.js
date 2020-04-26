@@ -29,3 +29,16 @@ export function filterPrice(data) {
     }
   })
 }
+
+export function adjustIndex(data) {
+  return request({
+    url: 'price-index/adjust',
+    method: 'post',
+    params: {
+      indexId: data.indexId,
+      fixedBaseAdjustIndex: data.fixedBaseAdjustIndex,
+      yearOnYearAdjustIndex: data.yearOnYearAdjustIndex,
+      chainAdjustIndex: data.chainAdjustIndex
+    }
+  })
+}

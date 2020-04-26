@@ -10,8 +10,8 @@
         </div>
         <div style="margin-top: 10px">
           <el-button type="primary" icon="el-icon-search" style="float: right" @click="filterChartPeriod">搜索</el-button>
-          <el-input v-model="chartPeriodEnd"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输入结束期数" />
-          <el-input v-model="chartPeriodStart"  style="width: 15%;float: right;margin-right: 5px" placeholder="请输入开始期数" /></div>
+          <el-input v-model="chartPeriodEnd" style="width: 15%;float: right;margin-right: 5px" placeholder="请输入结束期数" />
+          <el-input v-model="chartPeriodStart" style="width: 15%;float: right;margin-right: 5px" placeholder="请输入开始期数" /></div>
         <div id="main" ref="main" style="width: 100%;height:300px;margin: 60px auto 0px auto" />
         <div class="title">
           <b>| </b>价格指数数据表
@@ -26,68 +26,99 @@
           </el-select>
           <el-date-picker v-model="query.periodYear" type="year" placeholder="选择年" format="yyyy" value-format="yyyy" style="width: 10%;float:right;margin-right: 5px" />
         </div>
-        <el-table v-loading="listLoading" :data="list" stripe border style="width: 100%; margin: 80px auto 0;" max-height="800" highlight-current-row>
+        <div>
+          <el-table v-loading="listLoading" :data="list" stripe border style="width: 100%; margin: 80px auto 0;" max-height="800" highlight-current-row>
           <el-table-column fixed label="序号" type="index" width="55" align="center" />
-          <el-table-column prop="province" label="期数(年月旬)" align="center">
+          <el-table-column prop="province" width="120" label="期数(年月旬)" align="center">
             <template slot-scope="{row}">
               <span>{{ row.period }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="编码" align="center">
+          <el-table-column prop="" label="编码" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.code }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="品牌" align="center">
+          <el-table-column prop="" label="品牌" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.brand }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="区域" align="center">
+          <el-table-column prop="" label="区域" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.region }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="定基" align="center">
+          <el-table-column prop="" label="定基" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.fixedBaseIndex }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="本期调整指数" align="center">
+          <el-table-column prop="" label="本期调整指数" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.fixedBaseAdjustIndex }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="环比" align="center">
+          <el-table-column prop="" label="环比" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.chainIndex }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="环比调整指数" align="center">
+          <el-table-column prop="" label="环比调整指数" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.chainAdjustIndex }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="同比" align="center">
+          <el-table-column prop="" label="同比" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.yearOnYearIndex }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="" label="同比调整指数" align="center">
+          <el-table-column prop="" label="同比调整指数" align="center" width="120">
             <template slot-scope="{row}">
               <span>{{ row.yearOnYearAdjustIndex }}</span>
             </template>
           </el-table-column>
+          <el-table-column label="操作" align="center" fixed="right" width="100" v-if="role !== 'user'">
+            <template slot-scope="{row}">
+              <el-button  size="mini" type="warning" @click="handleAdjust(row)">
+                调整
+              </el-button>
+            </template>
+          </el-table-column>
         </el-table>
-        <pagination :total="total" :page.sync="query.pageNum" :limit.sync="query.pageSize" @pagination="getTable" />
+          <pagination :total="total" :page.sync="query.pageNum" :limit.sync="query.pageSize" @pagination="getTable" />
+        </div>
       </el-tab-pane>
     </el-tabs>
+
+    <el-dialog
+      title="请输入调整指数"
+      :visible.sync="dialogVisible"
+      width="30%">
+      <el-form :label-position="labelPosition" label-width="100px" :model="adjustList">
+        <el-form-item label="定基调整指数">
+          <el-input v-model="adjustList.fixedBaseAdjustIndex"></el-input>
+        </el-form-item>
+        <el-form-item label="同比调整指数">
+          <el-input v-model="adjustList.yearOnYearAdjustIndex"></el-input>
+        </el-form-item>
+        <el-form-item label="环比调整指数">
+          <el-input v-model="adjustList.chainAdjustIndex"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="startAdujst">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
 import Pagination from '@/components/Pagination'
+import store from '@/store'
 import { fetchLevel, fetchList } from '@/api/product'
-import { filterPrice } from '@/api/price'
+import { filterPrice, adjustIndex } from '@/api/price'
 import { mapMutations } from 'vuex'
 
 export default {
@@ -95,6 +126,7 @@ export default {
   components: { Pagination },
   data() {
     return {
+      role: store.getters.roles,
       index: '0',
       chartPeriodStart: '',
       chartPeriodEnd: '',
@@ -189,6 +221,13 @@ export default {
       tabIndex: 0,
       bigList: [],
       selectList: [],
+      adjustList: {
+        fixedBaseAdjustIndex: '',
+        yearOnYearAdjustIndex: '',
+        chainAdjustIndex: '',
+        indexId: null
+      },
+      dialogVisible: false
     }
   },
   beforeRouteEnter(to, from, next) {
@@ -290,6 +329,26 @@ export default {
         this.listLoading = false
       })
     },
+    handleAdjust(row) {
+      this.adjustList.indexId = row.indexId
+      this.dialogVisible = true
+    },
+    startAdujst() {
+      adjustIndex(this.adjustList).then(res => {
+        this.dialogVisible = false
+        this.clearAdjustList()
+        this.getTable()
+        this.getChart()
+      })
+    },
+    clearAdjustList() {
+      this.adjustList =  {
+        fixedBaseAdjustIndex: '',
+        yearOnYearAdjustIndex: '',
+        chainAdjustIndex: '',
+        indexId: null
+      }
+    },
     getChart() {
       filterPrice(this.queryChart).then(response => {
         this.chart = response.data.list
@@ -297,9 +356,15 @@ export default {
         this.initChartData()
         for (const i of this.chart) {
           this.periodList.push(i.period)
-          this.yearOnYearList.push(i.yearOnYearIndex)
-          this.chainList.push(i.chainIndex)
-          this.fixedBaseList.push(i.fixedBaseIndex)
+          if (i.yearOnYearAdjustIndex !== '') { this.yearOnYearList.push(i.yearOnYearAdjustIndex) } else {
+            this.yearOnYearList.push(i.yearOnYearIndex)
+          }
+          if (i.chainAdjustIndex !== '') { this.chainList.push(i.chainAdjustIndex) } else {
+            this.chainList.push(i.chainIndex)
+          }
+          if (i.fixedBaseAdjustIndex !== '') { this.fixedBaseList.push(i.fixedBaseAdjustIndex) } else {
+            this.fixedBaseList.push(i.fixedBaseIndex)
+          }
         }
         this.drawChart()
         this.getTotalChartData()
@@ -323,9 +388,15 @@ export default {
       // console.log(this.totalChartData)
       for (const i of this.totalChartData) {
         this.periodList.push(i.period)
-        this.yearOnYearList.push(i.yearOnYearIndex)
-        this.chainList.push(i.chainIndex)
-        this.fixedBaseList.push(i.fixedBaseIndex)
+        if (i.yearOnYearAdjustIndex !== '') { this.yearOnYearList.push(i.yearOnYearAdjustIndex) } else {
+          this.yearOnYearList.push(i.yearOnYearIndex)
+        }
+        if (i.chainAdjustIndex !== '') { this.chainList.push(i.chainAdjustIndex) } else {
+          this.chainList.push(i.chainIndex)
+        }
+        if (i.fixedBaseAdjustIndex !== '') { this.fixedBaseList.push(i.fixedBaseAdjustIndex) } else {
+          this.fixedBaseList.push(i.fixedBaseIndex)
+        }
       }
       this.filterPeriod()
       this.drawChart()
@@ -334,15 +405,13 @@ export default {
       let a = 0
       let b = this.periodList.length
       for (const i in this.periodList) {
-        if (this.periodList[i-1] + '' === this.chartPeriodStart) { b = i
-          console.log('b'+b)}
-        if (this.periodList[i] + '' === this.chartPeriodEnd) { a = i
-          console.log('a'+a)}
+        if (this.periodList[i - 1] + '' === this.chartPeriodStart) { b = i }
+        if (this.periodList[i] + '' === this.chartPeriodEnd) { a = i }
       }
       this.periodList = this.periodList.slice(a, b)
-      this.yearOnYearList = this.yearOnYearList.slice(a,b)
-      this.chainList = this.chainList.slice(a,b)
-      this.fixedBaseList = this.fixedBaseList.slice(a,b)
+      this.yearOnYearList = this.yearOnYearList.slice(a, b)
+      this.chainList = this.chainList.slice(a, b)
+      this.fixedBaseList = this.fixedBaseList.slice(a, b)
     },
     drawChart() {
       this.$refs.main[0].id = 'main'
@@ -394,7 +463,8 @@ export default {
             },
             dataView: { readOnly: false },
             magicType: { type: ['bar', 'line'] },
-            restore: {}
+            restore: {},
+            saveAsImage: {} // 导出图片
           }
         },
         series: [
